@@ -1,0 +1,20 @@
+---
+# derived from Pelican docs on deploying a static web site from Github Actions
+# https://docs.getpelican.com/en/latest/tips.html#publishing-to-github-pages-using-a-custom-github-actions-workflow
+name: Deploy to GitHub Pages
+# yamllint disable rule:line-length
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+jobs:
+  deploy:
+    uses: "getpelican/pelican/.github/workflows/github_pages.yml@main"
+    permissions:
+      contents: "read"
+      pages: "write"
+      id-token: "write"
+    with:
+      settings: "publishconf.py"
+      python: "3.13"
+      theme: https://github.com/jody-frankowski/blue-penguin
