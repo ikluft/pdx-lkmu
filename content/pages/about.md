@@ -1,4 +1,4 @@
-Title: About the Portland Linux Kernel Meetup
+Title: About
 Date: 2025-05-24 23:00
 Authors: Ian Kluft, Drew Fustini
 
@@ -8,8 +8,8 @@ Our regular meeting place is Lucky Labrador Beer Hall, 1945 NW Quimby St, Portla
 
 Here's the intro as Drew posted it on Meetup:
 
-    ![Tux at Lucky Lab]({static}/images/luckylab_tux.webp)
+![Tux at Lucky Lab]({static}/images/luckylab_tux.webp)
 
-    Come enjoy a beverage and chat with other people who are interested in the Linux kernel. All experience levels are welcome. This is a friendly and casual meetup.
+Come enjoy a beverage and chat with other people who are interested in the Linux kernel. All experience levels are welcome. This is a friendly and casual meetup.
 
-    NOTE: Look for the table with a plush Tux as seen in the photo above. Drew's mobile is 773-710-7131 if you have trouble finding us.
+NOTE: Look for the table with a plush Tux as seen in the photo above. Drew's mobile is 773-710-7131 if you have trouble finding us.
