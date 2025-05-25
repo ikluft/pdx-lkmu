@@ -1,5 +1,7 @@
 # PDX-lkmu - Portland Linux Kernel Meetup
-This will be where we post the public web and calendar for the monthly Portland Linux Kernel Meetup.
+This is where we post the public web and calendar for the monthly Portland Linux Kernel Meetup.
+
+Each commit to this repo automatically updates the static web site at https://ikluft.github.io/pdx-lkmu/ .
 
 ## Info for participants
 For participants authorized to update the repository, here's how to set up your local environment to work on it. It uses the Python-based [Pelican static web site generator](https://docs.getpelican.com/en/latest/). Each commit to the main branch triggers a Github Actions workflow to deploy the contents to the live web site.
