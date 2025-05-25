@@ -18,13 +18,22 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
+# additional menu items
+# used by Blue Penguin theme
+MENUITEMS = (
+    ('GitHub repo', 'https://github.com/ikluft/pdx-lkmu'),
+    ('Linux Kernel', 'https://www.kernel.org/'),
+)
+
 # Blogroll
+# from original example, appears to be ignored by Blue Penguin theme
 LINKS = (
     ("PDX Linux Kernel Meetup on Meetup.com", "https://www.meetup.com/portland-linux-kernel-meetup/"),
     # ("Pelican", "https://getpelican.com/"),
 )
 
 # Social widget
+# from original example, appears to be ignored by Blue Penguin theme
 SOCIAL = (
     ("Drew Fustini", "@pdp7@fosstodon.org"),
     ("John Stultz", "@jstultz@fosstodon.org"),
