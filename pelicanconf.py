@@ -1,6 +1,12 @@
 """
 configuration settings for Pelican
 """
+from pelican.plugins import events
+PLUGINS = ['pelican-events-plugin']
+PLUGIN_EVENTS = {
+    'ics_fname': 'calendar.ics',
+}
+
 AUTHOR = 'Portland Linux Kernel Meetup organizers'
 SITENAME = 'Portland Linux Kernel Meetup'
 SITEURL = ""

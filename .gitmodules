@@ -1,0 +1,3 @@
+[submodule "plugins/pelican-events-plugin"]
+	path = plugins/pelican-events-plugin
+	url = https://github.com/Makerspace-Esslingen/pelican-events-plugin.git
