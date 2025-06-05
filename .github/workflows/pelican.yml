@@ -17,5 +17,5 @@ jobs:
     with:
       settings: "publishconf.py"
       python: "3.13"
-      theme: "https://github.com/jody-frankowski/blue-penguin"
+      # theme: "https://github.com/jody-frankowski/blue-penguin"
       requirements: "pelican[markdown] icalendar"
