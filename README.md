@@ -11,7 +11,7 @@ For work on the site, you can also install Pelican on your local system to previ
 * Make sure you have a current version of Python installed.
 * install Pelican (based on the [quickstart docs](https://docs.getpelican.com/en/latest/quickstart.html))
 
- python -m pip install "pelican[markdown]"
+ python -m pip install "pelican[markdown]" icalendar recurrent
 
 * Grab your copy of the web site repository from https://github.com/ikluft/pdx-lkmu
 * the Pelican quickstart process has already been done in that directory
