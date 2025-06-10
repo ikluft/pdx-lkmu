@@ -49,6 +49,7 @@ on:  # yamllint disable-line rule:truthy
         required: false
         default: false
         description: "`true` to checkout submodules or `recursive` to recursively checkout submodules"
+        type: string
 permissions:
   contents: read
   pages: write
