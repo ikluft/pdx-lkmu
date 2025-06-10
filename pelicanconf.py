@@ -1,14 +1,14 @@
 """
 configuration settings for Pelican
 """
-DIRECT_TEMPLATES = ['index', 'tags', 'categories', 'authors', 'archives', 'events_list', 'upcoming_events_list']
 
-PLUGIN_PATHS = ["plugins"]
-PLUGINS = ['pelican-events-plugin']
+PLUGIN_PATHS = ["pelican-plugins"]
+PLUGINS = ['events']
 PLUGIN_EVENTS = {
-    'metadata_field_for_summary': 'summary',
     'ics_fname': 'calendar.ics',
 }
+DIRECT_TEMPLATES = ['index', 'tags', 'categories', 'authors', 'archives', 'events_list']
+THEME_TEMPLATES_OVERRIDES = ["templates"]
 
 AUTHOR = 'Portland Linux Kernel Meetup organizers'
 SITENAME = 'Portland Linux Kernel Meetup'
