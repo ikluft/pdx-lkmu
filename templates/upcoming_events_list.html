@@ -1,0 +1,38 @@
+
+{% extends "base.html" %}
+
+{% block title %} {{ SITENAME }} - Upcoming events list {% endblock %}
+
+{% block content %}
+
+    <section id="content" class="body">
+    {% if upcoming_events_list %}
+    <ul class="post-list">
+    {% for event in upcoming_events_list %}
+      <li>
+        <p>
+          <a href="{{ SITEURL }}/{{ event.url }}">
+            <b>{{ event.metadata["title"] }}</b>
+          </a>
+        </p>
+        <p>
+        {% if event.event_plugin_data["dtstart"].date() == event.event_plugin_data["dtend"].date() %}
+        From {{ event.event_plugin_data["dtstart"] }} to {{ event.event_plugin_data["dtend"].time() }}
+        {% else %}
+        From {{ event.event_plugin_data["dtstart"] }} to {{ event.event_plugin_data["dtend"] }}
+        {% endif %}
+        </p>
+
+        {% if event.location %}
+        <p>Location: {{ event.metadata["location"] }}</p>
+        {% endif %}
+
+        <p>{{ event.metadata["summary"] }}</p>
+
+      </li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    </section>
+
+{% endblock %}

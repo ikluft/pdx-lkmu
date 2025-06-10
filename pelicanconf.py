@@ -8,7 +8,7 @@ PLUGIN_EVENTS = {
     'metadata_field_for_summary': 'title',
     'ics_fname': 'calendar.ics',
 }
-DIRECT_TEMPLATES = ['index', 'tags', 'categories', 'authors', 'archives', 'events_list']
+DIRECT_TEMPLATES = ['index', 'tags', 'categories', 'authors', 'archives', 'events_list', 'upcoming_events_list']
 THEME_TEMPLATES_OVERRIDES = ["templates"]
 
 AUTHOR = 'Portland Linux Kernel Meetup organizers'
