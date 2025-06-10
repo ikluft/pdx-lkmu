@@ -20,4 +20,4 @@ jobs:
       python: "3.13"
       # theme: "https://github.com/jody-frankowski/blue-penguin"
       requirements: "pelican[markdown] icalendar pytz"
-      submodules: "recursive"
+      submodules: "true"
