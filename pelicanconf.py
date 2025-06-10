@@ -2,9 +2,10 @@
 configuration settings for Pelican
 """
 
-PLUGIN_PATHS = ["pelican-plugins"]
-PLUGINS = ['events']
+PLUGIN_PATHS = ["plugins"]
+PLUGINS = ['pelican-events-plugin']
 PLUGIN_EVENTS = {
+    'metadata_field_for_summary': 'title',
     'ics_fname': 'calendar.ics',
 }
 DIRECT_TEMPLATES = ['index', 'tags', 'categories', 'authors', 'archives', 'events_list']
