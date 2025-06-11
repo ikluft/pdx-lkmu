@@ -3,35 +3,80 @@ This is where we post the public web and calendar for the monthly Portland Linux
 
 Each commit to this repo automatically updates the static web site at https://ikluft.github.io/pdx-lkmu/ .
 
+_Contents_
+
+* [Info for participants](#info-participants)
+    * [Setting up a local preview](#setup-preview)
+    * [Structure of the pdx-lkmu repo](#repo-structure)
+    * [Adding a post, including newly-scheduled meetups](#add-post)
+
+<a name="info-participants"></a>
 ## Info for participants
-For participants authorized to update the repository, here's how to set up your local environment to work on it. It uses the Python-based [Pelican static web site generator](https://docs.getpelican.com/en/latest/). Each commit to the main branch triggers a Github Actions workflow to deploy the contents to the live web site.
+For participants authorized to update the repository, here's how to set up your local environment to work on it. It uses the Python-based [Pelican static web site generator](https://docs.getpelican.com/en/latest/). Each commit to the main branch triggers a GitHub Actions workflow to deploy the contents to the live web site.
 
-For work on the site, you can also install Pelican on your local system to preview it. _These instructions are still a work in progress as the local development environment comes together._ To set up your local environment on a Linux or other POSIX-compatible system:
+<a name="setup-preview"></a>
+### Setting up a local preview
+For work on the site, you can also install Pelican on your local system to preview your work. To set up your local environment on a Linux or other POSIX-compatible system:
 
-* Make sure you have a current version of Python installed.
+* Make sure you have a current version of Python installed. The GitHub Action which deploys the site uses 3.13.
 * install Pelican (based on the [quickstart docs](https://docs.getpelican.com/en/latest/quickstart.html))
 
  python -m pip install "pelican[markdown]" icalendar pytz recurrent
 
-* Grab your copy of the web site repository from https://github.com/ikluft/pdx-lkmu
+* Use git to grab your copy of the web site repository from https://github.com/ikluft/pdx-lkmu
 * the Pelican quickstart process has already been done in that directory
-  * [content](content) contains the static web site files
-  * [pelicanconf.py](pelicanconf.py) and [publishconf.py](publishconf.py) are the Pelican configuration files
-* In another directory (not in the web site content workspace), grab a copy of the Pelican themes with
-
-   git clone --recursive https://github.com/getpelican/pelican-themes
-
-* install the blue-penguin and blue-penguin-dark themes locally
-
-   pelican-themes --install pelican-themes/blue-penguin pelican-themes/blue-penguin-dark
-
-*[... work in progress - to be continued ...]*
-
+    * [content](content) contains the static web site files
+    * [pelicanconf.py](pelicanconf.py) and [publishconf.py](publishconf.py) are the Pelican configuration files
 * run Pelican locally (on http://localhost:8000/ unless you change the host or port parameters) to view the static site in your git workspace
 
     ./run-pdx-lkmu
 
-In addition to the original instructions to run "pelican --autoreload --listen", the run-pdx-lkmu script adds customizations which better sync up with the Github Actions build process. That's intended to make the local simulated site generator as much as possible like the Github site deploy upon each commit.
+The original instructions just said to run "pelican --autoreload --listen". But there were differences from the site deployment. So the run-pdx-lkmu script adds customizations which better sync up with the GitHub Actions build process. That's intended to make the local simulated site generator as much as possible like the GitHub site deploy upon each commit.
 
-## Current status
-The Pelican static site generator is installed so that it runs each time a commit is made to the repo. The calendar plugin had an unexpected twist in that Pelican is reorganizing its plugins and that plugin hasn't been converted to the new setup. Now that I'm done with an exam I was busy with, I'll experiment with using a git submodule link to the repo of the calendar plugin to try to include it in the build process. We'll see where that leads...
+<a name="repo-structure"></a>
+### Structure of the pdx-lkmu repo
+
+Here is the directory structure of the pdx-lkmu repo:
+
+* [top](.) - configuration files
+    * [content](content) - each file here is a post in the timeline
+        * [category](category) - optional content to add to categories
+        * [images](images) - image files for use in pages and posts
+        * [pages](pages) - static pages not part of the timeline
+    * output - not in the repository: the generated site is here in your workspace after run-pdx-lkmu; do not add or commit it to the repo
+    * [plugins](plugins) - pelicanconf.py sets this as the place Pelican looks for plugins
+        * [pelican-events-plugin](pelican-events-plugin) - git submodule pointing to Makerspace Esslingen's improved fork of the events plugin
+    * [templates](templates) - local page templates (such as calendar event list) are placed here without having to develop a whole new theme
+
+<a name="add-post"></a>
+### Adding a post, including newly-scheduled meetups
+
+More details are at the Pelican static site generator's [documentation on writing content](https://docs.getpelican.com/en/latest/content.html).
+
+A short summary of what any of our volunteers need for posting in the PDX Linux Kernel Meetup site is included here. Long story made short:
+
+* Add new posts in the content directory.
+* Prefix file names with the date in YYYY-MM-DD format so they will sort neatly for years to come. (Note the 'Date:' metadata in the file contains the date & timestamp for the post. You should keep these consistent.)
+* Posts are in Markdown format. So use a .md file suffix. Each file starts with some Pelican metadata headers before the Markdown content.
+* Use a local preview to check your work.
+* The static site will update automatically within minutes when you commit your changes. Errors can be corrected by editing affected files and committing the changes.
+
+Here's how to format a post for a newly-scheduled Portland Linux Kernel Meetup. Substitute [bracketed items] and date stamps YYYY-MM-DD HH:MM with actual info for the event. Timestamps are in Portland local time, "US/Pacific" - it will automatically use standard or daylight time for the time of year. Pelican doesn't recognize time zone suffixes on timestamps so don't use them in this file.
+
+    Title: [month] 2025 Portland Linux Kernel Meetup
+    Date: YYYY-MM-DD HH:MM
+    Category: Event Posts
+    Author: [your name]
+    Summary: Portland Linux Kernel Meetup, [month] [day], [year] [time] at [short location]
+    Event-start: YYYY-MM-DD HH:MM
+    Event-end: YYYY-MM-DD HH:MM
+    Event-location: [full location]
+
+    The Portland Linux Kernel Meetup for [month] [year] will be at
+
+        [weekday], [month] [day], [year]
+        6:00 PM to 9:00 PM PDT
+
+        [full location]
+
+    [more intro text]
