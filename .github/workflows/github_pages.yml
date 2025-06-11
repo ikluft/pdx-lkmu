@@ -74,6 +74,8 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Install requirements
         run: pip install ${{ inputs.requirements }}
+      - name: make output directory
+        run: mkdir -p ${{ inputs.output-path }}
       - name: Build Pelican site
         shell: python
         run: |
