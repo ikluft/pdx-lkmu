@@ -1,5 +1,5 @@
 """
-configuration settings for Pelican
+configuration for Pelican site generator for Portland Linux Kernel Meetup
 """
 
 PLUGIN_PATHS = ["plugins"]
