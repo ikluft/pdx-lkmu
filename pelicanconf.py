@@ -39,6 +39,7 @@ MENUITEMS = (
 # from original example, appears to be ignored by Blue Penguin theme
 LINKS = (
     ("PDX Linux Kernel Meetup on Meetup.com", "https://www.meetup.com/portland-linux-kernel-meetup/"),
+    ("Google Groups discussion for PDX Linux Kernel Meetup", "https://groups.google.com/g/pdxkernel"),
     # ("Pelican", "https://getpelican.com/"),
 )
 
