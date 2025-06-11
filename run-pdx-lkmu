@@ -1,0 +1,12 @@
+#!/bin/sh
+if [ -e ./output ] && [ ! -d ./output ]
+then
+    echo "unexpected: ./output exists but is not a directory" >&2
+    exit 1
+fi
+if [ -d ./output ]
+then
+    rm -rf ./output
+fi
+mkdir -p output
+pelican --settings publishconf.py --output output/ --autoreload --listen

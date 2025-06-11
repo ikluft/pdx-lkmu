@@ -29,7 +29,9 @@ For work on the site, you can also install Pelican on your local system to previ
 
 * run Pelican locally (on http://localhost:8000/ unless you change the host or port parameters) to view the static site in your git workspace
 
-    pelican --autoreload --listen
+    ./run-pdx-lkmu
+
+In addition to the original instructions to run "pelican --autoreload --listen", the run-pdx-lkmu script adds customizations which better sync up with the Github Actions build process. That's intended to make the local simulated site generator as much as possible like the Github site deploy upon each commit.
 
 ## Current status
 The Pelican static site generator is installed so that it runs each time a commit is made to the repo. The calendar plugin had an unexpected twist in that Pelican is reorganizing its plugins and that plugin hasn't been converted to the new setup. Now that I'm done with an exam I was busy with, I'll experiment with using a git submodule link to the repo of the calendar plugin to try to include it in the build process. We'll see where that leads...
