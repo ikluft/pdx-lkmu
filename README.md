@@ -9,6 +9,7 @@ _Contents_
     * [Setting up a local preview](#setup-preview)
     * [Structure of the pdx-lkmu repo](#repo-structure)
     * [Adding a post, including newly-scheduled meetups](#add-post)
+* [Current status](#current-status)
 
 <a name="info-participants"></a>
 ## Info for participants
@@ -80,3 +81,8 @@ Here's how to format a post for a newly-scheduled Portland Linux Kernel Meetup. 
         [full location]
 
     [more intro text]
+
+<a name="current-status"></a>
+## Current status
+
+The static site generator runs with the pelican-events-plugin. But now it has become obvious that the plugins do not have a way to fill the iCalendar URL field. There is probably no longer an option but to modify the Python code with a custom plugin, possibly as a pull request to submit to Makerspace Esslingen because their modified plugin got us most of the way to what we need.
