@@ -85,4 +85,4 @@ Here's how to format a post for a newly-scheduled Portland Linux Kernel Meetup. 
 <a name="current-status"></a>
 ## Current status
 
-The static site generator runs with the pelican-events-plugin. But now it has become obvious that the plugins do not have a way to fill the iCalendar URL field. There is probably no longer an option but to modify the Python code with a custom plugin, possibly as a pull request to submit to Makerspace Esslingen because their modified plugin got us most of the way to what we need.
+The static site generator runs with the pelican-events-plugin. But now it has become obvious that the plugins do not have a way to fill the iCalendar URL field. There is probably no longer an option but to modify the Python code with a custom plugin. Using examples from the original Pelican Events plugin and the Makerspace Esslingen modified plugin should get to what we need. The intent is to eventually submit the result as an updated Events plugin since none are currently available in the new Pelican Plugins format.
