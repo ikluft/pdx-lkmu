@@ -45,8 +45,6 @@ Here is the directory structure of the pdx-lkmu repo:
         * [images](images) - image files for use in pages and posts
         * [pages](pages) - static pages not part of the timeline
     * output - not in the repository: the generated site is here in your workspace after run-pdx-lkmu; do not add or commit it to the repo
-    * [plugins](plugins) - pelicanconf.py sets this as the place Pelican looks for plugins
-        * [pelican-events-plugin](pelican-events-plugin) - git submodule pointing to Makerspace Esslingen's improved fork of the events plugin
     * [templates](templates) - local page templates (such as calendar event list) are placed here without having to develop a whole new theme
 
 <a name="add-post"></a>
@@ -85,4 +83,6 @@ Here's how to format a post for a newly-scheduled Portland Linux Kernel Meetup. 
 <a name="current-status"></a>
 ## Current status
 
-The static site generator runs with the pelican-events-plugin. But now it has become obvious that the plugins do not have a way to fill the iCalendar URL field. There is probably no longer an option but to modify the Python code with a custom plugin. Using examples from the original Pelican Events plugin and the Makerspace Esslingen modified plugin should get to what we need. The intent is to eventually submit the result as an updated Events plugin since none are currently available in the new Pelican Plugins format.
+After failing to get the legacy events plugin to generate iCalendar files with support for the URL field,
+work is progressing on a home-grown alternative.
+The static site generator is being adapted to use our [pelican-events plugin](https://github.com/ikluft/pelican-events).

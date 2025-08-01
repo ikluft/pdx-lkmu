@@ -3,8 +3,7 @@ configuration for Pelican site generator for Portland Linux Kernel Meetup
 """
 import os
 
-PLUGIN_PATHS = ["plugins"]
-PLUGINS = ['pelican-events-plugin']
+PLUGINS = ['pelican.plugins.pelican_events']
 PLUGIN_EVENTS = {
     'metadata_field_for_summary': 'title',
     'ics_fname': 'calendar.ics',
