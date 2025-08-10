@@ -19,3 +19,8 @@ This is the text Drew uses for each meetup event:
 > Come enjoy a beverage and chat with other people who are interested in the Linux kernel. All experience levels are welcome. This is a friendly and casual meetup.
 >
 > NOTE: Look for the table with a plush Tux as seen in the photo above. Drew's mobile is 773-710-7131 if you have trouble finding us.
+
+## Open Source credits and attributions
+
+* The static web site is built with [Pelican](https://getpelican.com/).
+* The Tux penguin image (used for the site favicon) is by [Larry Ewing, via Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Tux_classic_flat_look.svg).
