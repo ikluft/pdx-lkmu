@@ -1,12 +1,11 @@
 """
 configuration for Pelican site generator for Portland Linux Kernel Meetup
 """
-import os
-
 PLUGINS = ['pelican.plugins.pelican_events']
 PLUGIN_EVENTS = {
     'metadata_field_for_summary': 'title',
     'ics_fname': 'calendar.ics',
+    'timezone': 'US/Pacific',
 }
 DIRECT_TEMPLATES = ['index', 'tags', 'categories', 'authors', 'archives', 'events_list', 'upcoming_events_list']
 THEME_TEMPLATES_OVERRIDES = ["templates"]
@@ -16,10 +15,6 @@ SITENAME = 'Portland Linux Kernel Meetup'
 SITEURL = ""
 
 PATH = "content"
-
-# set time zone from TZ in environment, allowing local time in event posts
-# note: set the TZ environment variable in publishconf.py and we'll use it here
-TIMEZONE = os.environ['TZ']
 
 DEFAULT_LANG = 'en'
 

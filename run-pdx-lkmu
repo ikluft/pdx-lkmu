@@ -9,4 +9,4 @@ then
     rm -rf ./output
 fi
 mkdir -p output
-pelican --settings publishconf.py --output output/ --autoreload --listen
+pelican --settings publishconf.py --output output/ --autoreload --listen --debug

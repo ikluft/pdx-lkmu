@@ -4,9 +4,6 @@
 import os
 import sys
 
-# set time zone to Portland local time so we can use local time in posts
-os.environ['TZ'] = 'US/Pacific'
-
 sys.path.append(os.curdir)
 from pelicanconf import *
 
