@@ -43,9 +43,9 @@ LINKS = (
 # Social widget
 # from original example, appears to be ignored by Blue Penguin theme
 SOCIAL = (
-    ("Drew Fustini @pdp7@fosstodon.org", "https://fosstodon.org/@pdp7"),
-    ("John Stultz @jstultz@hachyderm.io", "https://hachyderm.io/@jstultz"),
-    ("Ian Kluft @KO6YQ@pnw.zone", "https://pnw.zone/@KO6YQ"),
+    ("Drew Fustini @pdp7@fosstodon.org (organizer)", "https://fosstodon.org/@pdp7"),
+    ("John Stultz @jstultz@hachyderm.io (organizer)", "https://hachyderm.io/@jstultz"),
+    ("Ian Kluft @KO6YQ@pnw.zone (web site)", "https://pnw.zone/@KO6YQ"),
 )
 
 DEFAULT_PAGINATION = 10
