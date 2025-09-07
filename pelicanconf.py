@@ -35,17 +35,17 @@ MENUITEMS = (
 # Blogroll
 # from original example, appears to be ignored by Blue Penguin theme
 LINKS = (
-    ("iCalendar for PDX Linux Kernel Meetup", "https://ikluft.github.io/pdx-lkmu/calendar.ics"),
-    ("Google Groups discussion for PDX Linux Kernel Meetup", "https://groups.google.com/g/pdxkernel"),
+    ("🗓️ iCalendar for PDX Linux Kernel Meetup", "https://ikluft.github.io/pdx-lkmu/calendar.ics"),
+    ("✉️ Google Groups discussion for PDX Linux Kernel Meetup", "https://groups.google.com/g/pdxkernel"),
     # ("Pelican", "https://getpelican.com/"),
 )
 
 # Social widget
 # from original example, appears to be ignored by Blue Penguin theme
 SOCIAL = (
-    ("Drew Fustini @pdp7@fosstodon.org (organizer)", "https://fosstodon.org/@pdp7"),
-    ("John Stultz @jstultz@hachyderm.io (organizer)", "https://hachyderm.io/@jstultz"),
-    ("Ian Kluft @KO6YQ@pnw.zone (web site)", "https://pnw.zone/@KO6YQ"),
+    ("🐧 Drew Fustini @pdp7@fosstodon.org (organizer)", "https://fosstodon.org/@pdp7"),
+    ("🐧 John Stultz @jstultz@hachyderm.io (organizer)", "https://hachyderm.io/@jstultz"),
+    ("🐧 Ian Kluft @KO6YQ@pnw.zone (web site)", "https://pnw.zone/@KO6YQ"),
 )
 
 DEFAULT_PAGINATION = 10
