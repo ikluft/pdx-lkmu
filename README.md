@@ -78,11 +78,15 @@ Here's how to format a post for a newly-scheduled Portland Linux Kernel Meetup. 
 
         [full location]
 
-    [more intro text]
+    Come enjoy a beverage and chat with other people who are interested in the Linux kernel. All experience levels are welcome. This is a friendly and casual meetup.
+
+    [more intro text if needed for the specific date]
 
 <a name="current-status"></a>
 ## Current status
 
-After failing to get the legacy events plugin to generate iCalendar files with support for the URL field,
-work is progressing on a home-grown alternative.
-The static site generator is being adapted to use our [pelican-events plugin](https://github.com/ikluft/pelican-events).
+As of September 2025:
+
+After failing to get the legacy (2015) events plugin to generate iCalendar files with support for the URL field, Ian had to update the plugin. The static site generator now uses our [pelican-events plugin](https://github.com/ikluft/pelican-events). This builds on the 2015 events plugin and fixes/extensions by Makerspace Esslingen (Germany). The updated plugin complies with Pelican's current requirement that it is discoverable as a Python module whose name is prefixed with pelican.plugins.* .
+
+Work is in progress adding tests and preparing to submit it to PyPI.
