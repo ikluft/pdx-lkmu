@@ -60,7 +60,11 @@ A short summary of what any of our volunteers need for posting in the PDX Linux 
 * Use a local preview to check your work.
 * The static site will update automatically within minutes when you commit your changes. Errors can be corrected by editing affected files and committing the changes.
 
-Here's how to format a post for a newly-scheduled Portland Linux Kernel Meetup. Substitute [bracketed items] and date stamps YYYY-MM-DD HH:MM with actual info for the event. Timestamps are in Portland local time, "US/Pacific" - it will automatically use standard or daylight time for the time of year. Pelican doesn't recognize time zone suffixes on timestamps so don't use them in this file.
+You can generate a post text by running with a parameter of the ISO8601 date of the meetupi (i.e. format a date like 2025-09-18):
+
+    ./gen_lkmu_event.py YYYY-MM-DD
+
+Here's how to manually format a post for a newly-scheduled Portland Linux Kernel Meetup. Substitute [bracketed items] and date stamps YYYY-MM-DD HH:MM with actual info for the event. Timestamps are in Portland local time, "US/Pacific" - it will automatically use standard or daylight time for the time of year. Pelican doesn't recognize time zone suffixes on timestamps so don't use them in this file.
 
     Title: [month] 2025 Portland Linux Kernel Meetup
     Date: YYYY-MM-DD HH:MM

@@ -1,0 +1,136 @@
+#!/usr/bin/env python3
+"""
+gen_lkmu_event.py - generate a new event for Portland Linux Kernel Meetup (PDX LKMU) from a template
+written by Ian Kluft
+"""
+
+import argparse
+from datetime import date, time, datetime
+from zoneinfo import ZoneInfo
+import sys
+import os
+import pwd
+from string import Template
+
+PDX_LKMU_DEFAULTS = {
+    "start_time": "18:00:00",
+    "end_time": "21:00:00",
+    "time_zone": "US/Pacific",
+    "url": "https://ikluft.github.io/pdx-lkmu/",
+    "location": "0",
+}
+PDX_LKMU_LOCATIONS = [
+    {
+        "short": "Lucky Lab on Quimby",
+        "name": "Lucky Labrador Beer Hall",
+        "street": "1945 NW Quimby St",
+        "city": "Portland, Oregon 97209 US",
+        "geo": "45.53371;-122.69174",
+    },
+]
+PDX_LKMU_TEMPLATE = \
+    '''Title: ${month} ${year} Portland Linux Kernel Meetup
+Date: ${post_date}
+Category: Event Posts
+Author: ${author}
+Summary: Portland Linux Kernel Meetup on ${month} ${day}, ${year} ${start_time} at ${location_short}
+Event-start: ${event_start}
+Event-end: ${event_end}
+Event-location: ${location_name}, ${location_street}, ${location_city}
+Event-url: ${url}
+Event-geo: ${location_geo}
+Event-categories: MEETING,PDXLKMU,Linux,Kernel
+
+The Portland Linux Kernel Meetup for ${month} ${year} will be at...
+
+* Date: ${weekday}, ${month} ${day}, ${year}
+* Time: ${start_time} to ${end_time} US/Pacific
+* Location: ${location_name}, ${location_street}, ${location_city}
+
+Come enjoy a beverage and chat with other people who are interested in the Linux kernel.
+All experience levels are welcome. This is a friendly and casual meetup.'''
+
+
+def get_user_name() -> str:
+    """get user name as default author name."""
+    gecos = pwd.getpwuid(os.getuid())[4]
+    if gecos is not None and len(gecos) > 0:
+        return gecos
+    username = pwd.getpwuid(os.getuid())[0]
+    return username
+
+
+def dt_to_ical(dt: datetime) -> str:
+    """convert datetime to iCalendar date/time string."""
+    return dt.strftime("%Y:%m:%d %H:%M")
+
+
+def get_meeting_params() -> dict:
+    """get parameters from user input, with defaults from command-line"""
+    # initialize empty parameters
+    params = {}
+
+    # parse command line
+    parser = argparse.ArgumentParser()
+    parser.add_argument("date")
+    parser.add_argument("--author", default=get_user_name())
+    parser.add_argument("--start_time", default=PDX_LKMU_DEFAULTS["start_time"])
+    parser.add_argument("--end_time", default=PDX_LKMU_DEFAULTS["end_time"])
+    parser.add_argument("--time_zone", default=PDX_LKMU_DEFAULTS["time_zone"])
+    parser.add_argument("--url", default=PDX_LKMU_DEFAULTS["url"])
+    parser.add_argument("--location", default=PDX_LKMU_DEFAULTS["location"])
+    args = parser.parse_args()
+
+    # parse date and generate related parameters
+    event_date = date.fromisoformat(args.date)
+    params['date'] = event_date.isoformat()
+    params['weekday'] = event_date.strftime("%A")
+    params['year'] = event_date.strftime("%Y")
+    params['month'] = event_date.strftime("%B")
+    params['day'] = str(event_date.day)
+
+    # process time zone
+    params['time_zone'] = args.time_zone
+    tz = ZoneInfo(params['time_zone'])
+
+    # parse start and end times, generate related parameters
+    event_start_time = time.fromisoformat(args.start_time)
+    params['start_time'] = event_start_time.strftime("%I:%M %p")
+    event_start = datetime.combine(event_date, event_start_time, tzinfo=tz)
+    params['event_start'] = dt_to_ical(event_start)
+    event_end_time = time.fromisoformat(args.end_time)
+    params['end_time'] = event_end_time.strftime("%I:%M %p")
+    event_end = datetime.combine(event_date, event_end_time, tzinfo=tz)
+    params['event_end'] = dt_to_ical(event_end)
+    params['post_date'] = dt_to_ical(datetime.now())
+
+    # prompt user for values
+    params['author'] = args.author
+    params['url'] = args.url
+
+    # pull location from table
+    location_num = int(args.location)
+    params['location_short'] = PDX_LKMU_LOCATIONS[location_num]['short']
+    params['location_name'] = PDX_LKMU_LOCATIONS[location_num]['name']
+    params['location_street'] = PDX_LKMU_LOCATIONS[location_num]['street']
+    params['location_city'] = PDX_LKMU_LOCATIONS[location_num]['city']
+    params['location_geo'] = PDX_LKMU_LOCATIONS[location_num]['geo']
+
+    # return resulting parameter dict
+    return params
+
+
+def generate_event(params: dict) -> int | str | None:
+    """generate event text from template"""
+    template = Template(PDX_LKMU_TEMPLATE)
+    print(template.safe_substitute(params))
+
+
+def main() -> int | str | None:
+    """mainline entry point"""
+    params = get_meeting_params()
+    return generate_event(params)
+
+
+if __name__ == '__main__':
+    sys.exit(main())
