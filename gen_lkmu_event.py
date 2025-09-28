@@ -44,7 +44,7 @@ Event-categories: MEETING,PDXLKMU,Linux,Kernel
 The Portland Linux Kernel Meetup for ${month} ${year} will be at...
 
 * Date: ${weekday}, ${month} ${day}, ${year}
-* Time: ${start_time} to ${end_time} US/Pacific
+* Time: ${start_time} to ${end_time} ${time_zone}
 * Location: ${location_name}, ${location_street}, ${location_city}
 
 Come enjoy a beverage and chat with other people who are interested in the Linux kernel.
@@ -63,6 +63,14 @@ def get_user_name() -> str:
 def dt_to_ical(dt: datetime) -> str:
     """convert datetime to iCalendar date/time string."""
     return dt.strftime("%Y:%m:%d %H:%M")
+
+
+def prompt_input(prompt: str, default: str) -> str:
+    """Display a prompt and get user input, including default value if nothing was entered."""
+    response = input(f"{prompt} [{default}]: ")
+    if len(response) == 0:
+        return default
+    return response
 
 
 def get_meeting_params() -> dict:
@@ -90,23 +98,25 @@ def get_meeting_params() -> dict:
     params['day'] = str(event_date.day)
 
     # process time zone
-    params['time_zone'] = args.time_zone
+    params['time_zone'] = prompt_input("time zone", args.time_zone)
     tz = ZoneInfo(params['time_zone'])
 
     # parse start and end times, generate related parameters
-    event_start_time = time.fromisoformat(args.start_time)
+    start_time_str = prompt_input("start time", args.start_time)
+    event_start_time = time.fromisoformat(start_time_str)
     params['start_time'] = event_start_time.strftime("%I:%M %p")
     event_start = datetime.combine(event_date, event_start_time, tzinfo=tz)
     params['event_start'] = dt_to_ical(event_start)
-    event_end_time = time.fromisoformat(args.end_time)
+    end_time_str = prompt_input("end time", args.end_time)
+    event_end_time = time.fromisoformat(end_time_str)
     params['end_time'] = event_end_time.strftime("%I:%M %p")
     event_end = datetime.combine(event_date, event_end_time, tzinfo=tz)
     params['event_end'] = dt_to_ical(event_end)
     params['post_date'] = dt_to_ical(datetime.now())
 
     # prompt user for values
-    params['author'] = args.author
-    params['url'] = args.url
+    params['author'] = prompt_input("author", args.author)
+    params['url'] = prompt_input("URL", args.url)
 
     # pull location from table
     location_num = int(args.location)
