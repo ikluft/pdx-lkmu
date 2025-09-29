@@ -66,23 +66,26 @@ You can generate a post text by running with a parameter of the ISO8601 date of 
 
 Here's how to manually format a post for a newly-scheduled Portland Linux Kernel Meetup. Substitute [bracketed items] and date stamps YYYY-MM-DD HH:MM with actual info for the event. Timestamps are in Portland local time, "US/Pacific" - it will automatically use standard or daylight time for the time of year. Pelican doesn't recognize time zone suffixes on timestamps so don't use them in this file.
 
-    Title: [month] 2025 Portland Linux Kernel Meetup
-    Date: YYYY-MM-DD HH:MM
+    Title: ${month} ${year} Portland Linux Kernel Meetup
+    Date: ${post_date}
     Category: Event Posts
-    Author: [your name]
-    Summary: Portland Linux Kernel Meetup, [month] [day], [year] [time] at [short location]
-    Event-start: YYYY-MM-DD HH:MM
-    Event-end: YYYY-MM-DD HH:MM
-    Event-location: [full location]
+    Author: ${author}
+    Summary: Portland Linux Kernel Meetup on ${month} ${day}, ${year} ${start_time} at ${location_short}
+    Event-start: ${event_start}
+    Event-end: ${event_end}
+    Event-location: ${location_name}, ${location_street}, ${location_city}
+    Event-url: ${url}
+    Event-geo: ${location_geo}
+    Event-categories: MEETING,PDXLKMU,Linux,Kernel
 
-    The Portland Linux Kernel Meetup for [month] [year] will be at
+    The Portland Linux Kernel Meetup for ${month} ${year} will be at...
 
-        [weekday], [month] [day], [year]
-        6:00 PM to 9:00 PM PDT
+    * Date: ${weekday}, ${month} ${day}, ${year}
+    * Time: ${start_time} to ${end_time} ${time_zone}
+    * Location: ${location_name}, ${location_street}, ${location_city}
 
-        [full location]
-
-    Come enjoy a beverage and chat with other people who are interested in the Linux kernel. All experience levels are welcome. This is a friendly and casual meetup.
+    Come enjoy a beverage and chat with other people who are interested in the Linux kernel.
+    All experience levels are welcome. This is a friendly and casual meetup.
 
     [more intro text if needed for the specific date]
 
