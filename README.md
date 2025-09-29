@@ -64,6 +64,8 @@ You can generate a post text by running with a parameter of the ISO8601 date of 
 
     ./gen_lkmu_event.py YYYY-MM-DD
 
+That command creates a text file in the contents/ directory named for the event date. For example, './gen_lkmu_event.py 2025-09-18' would try to create 2025-09-18-meetup.md - except that file already exists and would error out. You should run it in your git workspace. Then use 'git add ...', 'git commit ...' and 'git push' to update the git repo. A rebuild of the web site will be triggered when you commit.
+
 Here's how to manually format a post for a newly-scheduled Portland Linux Kernel Meetup. Substitute [bracketed items] and date stamps YYYY-MM-DD HH:MM with actual info for the event. Timestamps are in Portland local time, "US/Pacific" - it will automatically use standard or daylight time for the time of year. Pelican doesn't recognize time zone suffixes on timestamps so don't use them in this file.
 
     Title: ${month} ${year} Portland Linux Kernel Meetup
