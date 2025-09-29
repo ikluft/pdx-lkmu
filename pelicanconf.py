@@ -1,6 +1,4 @@
-"""
-configuration for Pelican site generator for Portland Linux Kernel Meetup
-"""
+"""configuration for Pelican site generator for Portland Linux Kernel Meetup."""
 PLUGIN_EVENTS = {
     'metadata_field_for_summary': 'title',
     'ics_fname': 'calendar.ics',
