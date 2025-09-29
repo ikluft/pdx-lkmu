@@ -1,31 +1,31 @@
 #!/usr/bin/env python3
-"""
-gen_lkmu_event.py - generate a new event for Portland Linux Kernel Meetup (PDX LKMU) from a template
+"""gen_lkmu_event.py - generate a new event for Portland Linux Kernel Meetup (PDX LKMU) from a template.
+
 written by Ian Kluft
 """
 
 import argparse
-from datetime import date, time, datetime
-from zoneinfo import ZoneInfo
-import sys
 import os
-from pathlib import Path
 import pwd
+import sys
+from datetime import date, datetime, time
+from pathlib import Path
 from string import Template
-import validators
+from zoneinfo import ZoneInfo
 
+import validators
 
 #
 # functions for initializing constants need to be first
 #
 
+
 def get_user_name() -> str:
-    """get user name as default author name"""
+    """Get user name as default author name."""
     gecos = pwd.getpwuid(os.getuid())[4]
     if gecos is not None and len(gecos) > 0:
         return gecos
-    username = pwd.getpwuid(os.getuid())[0]
-    return username
+    return pwd.getpwuid(os.getuid())[0]
 
 
 #
@@ -84,7 +84,7 @@ All experience levels are welcome. This is a friendly and casual meetup.'''
 class ScriptError(Exception):
     """Exception intended to be caught and print its message attribute, no stack trace."""
 
-    def __init__(self, message):
+    def __init__(self, message):  # noqa: D107
         self.message = message
         super().__init__(self.message)
 
@@ -94,7 +94,7 @@ class ScriptError(Exception):
 
 
 def get_parsed_args() -> argparse.Namespace:
-    """parse command line arguments and return Namespace structure with their keys & values"""
+    """Parse command line arguments and return Namespace structure with their keys & values."""
     parser = argparse.ArgumentParser()
     parser.add_argument("date")
     parser.add_argument("--quiet", action=argparse.BooleanOptionalAction)
@@ -108,12 +108,12 @@ def get_parsed_args() -> argparse.Namespace:
 
 
 def dt_to_ical(dt: datetime) -> str:
-    """convert datetime to iCalendar date/time string"""
+    """Convert datetime to iCalendar date/time string."""
     return dt.strftime("%Y:%m:%d %H:%M")
 
 
 def prompt_input(prompt: str, field_name: str, args: argparse.Namespace) -> str:
-    """Display a prompt and get user input, including default value if nothing was entered"""
+    """Display a prompt and get user input, including default value if nothing was entered."""
     if field_name in vars(args) and vars(args)[field_name] is not None:
         return vars(args)[field_name]
     default = PDX_LKMU_DEFAULTS[field_name]
@@ -126,7 +126,7 @@ def prompt_input(prompt: str, field_name: str, args: argparse.Namespace) -> str:
 
 
 def parse_date(date_str: str) -> date:
-    """Parse and validate a date string, ignore return value if only validating format"""
+    """Parse and validate a date string, ignore return value if only validating format."""
     try:
         event_date = date.fromisoformat(date_str)
     except ValueError as e:
@@ -135,7 +135,7 @@ def parse_date(date_str: str) -> date:
 
 
 def parse_time(time_str: str, desc: str) -> time:
-    """Parse and validate a time-of-day string, ignore return value if only validating format"""
+    """Parse and validate a time-of-day string, ignore return value if only validating format."""
     try:
         time_obj = time.fromisoformat(time_str)
     except ValueError as e:
@@ -144,7 +144,7 @@ def parse_time(time_str: str, desc: str) -> time:
 
 
 def parse_tz(tz_str: str) -> ZoneInfo:
-    """Parse and validate a time zone string, ignore return value if only validating format"""
+    """Parse and validate a time zone string, ignore return value if only validating format."""
     try:
         tz = ZoneInfo(tz_str)
     except TypeError as e:
@@ -153,7 +153,7 @@ def parse_tz(tz_str: str) -> ZoneInfo:
 
 
 def validate_url(url: str) -> None:
-    """validate URL formatting, otherwise raise exception"""
+    """Validate URL formatting, otherwise raise exception."""
     try:
         result = validators.url(url)
         if isinstance(result, Exception):
@@ -163,14 +163,14 @@ def validate_url(url: str) -> None:
 
 
 def validate_location(loc_num: int) -> None:
-    """validate location number, otherwise raise exception"""
+    """Validate location number, otherwise raise exception."""
     max_loc = len(PDX_LKMU_LOCATIONS) - 1
     if loc_num < 0 or loc_num > max_loc:
         raise ScriptError(f"location number must be 0-{max_loc}, got {loc_num}")
 
 
 def validate_args(args: argparse.Namespace) -> None:
-    """verify values of provided arguments, raise exception for failure"""
+    """Verify values of provided arguments, raise exception for failure."""
     parse_date(args.date)
     if args.start_time is not None:
         parse_time(args.start_time, "start")
@@ -185,7 +185,7 @@ def validate_args(args: argparse.Namespace) -> None:
 
 
 def get_event_path(params: dict) -> Path:
-    """get event file path and require it doesn't already exist"""
+    """Get event file path and require it doesn't already exist."""
     content_path = Path("content")
     if not content_path.exists():
         raise ScriptError("'content' directory does not exist - this should be run in a PDX-LKMU git workspace")
@@ -198,7 +198,7 @@ def get_event_path(params: dict) -> Path:
 
 
 def get_meeting_params() -> dict:
-    """get parameters from user input, with defaults from command-line"""
+    """Get parameters from user input, with defaults from command-line."""
     # initialize empty parameters
     params = {}
 
@@ -254,10 +254,10 @@ def get_meeting_params() -> dict:
 
 
 def generate_event(params: dict) -> int | str | None:
-    """generate event text from template"""
+    """Generate event text from template."""
     template = Template(PDX_LKMU_TEMPLATE)
     event_path = get_event_path(params)
-    print(f"generating event file to {event_path}")
+    print(f"generating event file to {event_path}")  # noqa: T201
     with open(event_path, "w", encoding='utf-8') as out_file:
         print(template.safe_substitute(params), file=out_file)
 
@@ -267,7 +267,7 @@ def generate_event(params: dict) -> int | str | None:
 
 
 def main() -> int | str | None:
-    """mainline entry point"""
+    """Mainline entry point."""
     params = get_meeting_params()
     return generate_event(params)
 
@@ -276,4 +276,4 @@ if __name__ == '__main__':
     try:
         sys.exit(main())
     except ScriptError as e:
-        print(f"error: {e.message}", file=sys.stderr)
+        print(f"error: {e.message}", file=sys.stderr)  # noqa: T201
