@@ -11,7 +11,7 @@ import sys
 from datetime import date, datetime, time
 from pathlib import Path
 from string import Template
-from zoneinfo import ZoneInfo
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import validators
 
@@ -88,6 +88,62 @@ class ScriptError(Exception):
         self.message = message
         super().__init__(self.message)
 
+
+class InvalidDateError(ScriptError):
+    """Report invalid date."""
+
+    def __init__(self, err: str):  # noqa: D107
+        super().__init__(f"event date must be in YYYY-MM-DD format: {err}")
+
+
+class InvalidTimeError(ScriptError):
+    """Report invalid time."""
+
+    def __init__(self, desc: str, err: str):  # noqa: D107
+        super().__init__(f"event {desc} time must be in 24-hour HH:MM or HH:MM:SS format: {err}")
+
+
+class InvalidTzError(ScriptError):
+    """Report invalid time zone."""
+
+    def __init__(self, tz_str: str, err: str):  # noqa: D107
+        super().__init__(f"unrecognized time zone {tz_str}: {err}")
+
+
+class InvalidURLError(ScriptError):
+    """Report invalid URL."""
+
+    def __init__(self, url: str, err: str):  # noqa: D107
+        super().__init__(f"URL failed validation: {url} - reason: {err}")
+
+
+class InvalidLocationError(ScriptError):
+    """Report invalid location."""
+
+    def __init__(self, loc_num: int, max_loc: int):  # noqa: D107
+        super().__init__(f"location number must be 0-{max_loc}, got {loc_num}")
+
+
+class ContentDirNotFoundError(ScriptError):
+    """Report the content directory was not found."""
+
+    def __init__(self, content_path: Path):  # noqa: D107
+        super().__init__(f"'content' directory ({content_path}) does not exist - run script in PDX-LKMU git workspace")
+
+
+class ContentNotDirError(ScriptError):
+    """Report that the content directory path is occupied by a non-directory."""
+
+    def __init__(self, content_path: Path):  # noqa: D107
+        super().__init__(f"'content' directory ({content_path}) path occupied by non-directory - can't create files")
+
+
+class EventFileExistsError(ScriptError):
+    """Report that the event file already exists."""
+
+    def __init__(self, event_path: Path):  # noqa: D107
+        super().__init__(f"event file exists and will not be overwritten: {event_path}")
+
 #
 # functions
 #
@@ -130,7 +186,7 @@ def parse_date(date_str: str) -> date:
     try:
         event_date = date.fromisoformat(date_str)
     except ValueError as e:
-        raise ScriptError(f"event date must be in YYYY-MM-DD format: {e}") from e
+        raise InvalidDateError(err=e) from e
     return event_date
 
 
@@ -139,7 +195,7 @@ def parse_time(time_str: str, desc: str) -> time:
     try:
         time_obj = time.fromisoformat(time_str)
     except ValueError as e:
-        raise ScriptError(f"event {desc} time must be in 24-hour HH:MM or HH:MM:SS format: {e}") from e
+        raise InvalidTimeError(desc=desc, err=e) from e
     return time_obj
 
 
@@ -147,8 +203,8 @@ def parse_tz(tz_str: str) -> ZoneInfo:
     """Parse and validate a time zone string, ignore return value if only validating format."""
     try:
         tz = ZoneInfo(tz_str)
-    except TypeError as e:
-        raise ScriptError(f"unrecognized time zone {tz_str}: {e}") from e
+    except (TypeError, ZoneInfoNotFoundError) as e:
+        raise InvalidTzError(tz_str=tz_str, err=e) from e
     return tz
 
 
@@ -159,14 +215,14 @@ def validate_url(url: str) -> None:
         if isinstance(result, Exception):
             raise result
     except validators.utils.ValidationError as e:
-        raise ScriptError(f"URL failed validation: {url} - reason: {e}") from e
+        raise InvalidURLError(url=url, err=e) from e
 
 
 def validate_location(loc_num: int) -> None:
     """Validate location number, otherwise raise exception."""
     max_loc = len(PDX_LKMU_LOCATIONS) - 1
     if loc_num < 0 or loc_num > max_loc:
-        raise ScriptError(f"location number must be 0-{max_loc}, got {loc_num}")
+        raise InvalidLocationError(loc_num=loc_num, max_loc=max_loc)
 
 
 def validate_args(args: argparse.Namespace) -> None:
@@ -188,12 +244,12 @@ def get_event_path(params: dict) -> Path:
     """Get event file path and require it doesn't already exist."""
     content_path = Path("content")
     if not content_path.exists():
-        raise ScriptError("'content' directory does not exist - this should be run in a PDX-LKMU git workspace")
+        raise ContentDirNotFoundError(content_path)
     if not content_path.is_dir():
-        raise ScriptError("'content' must be a directory in order to create files in it")
+        raise ContentNotDirError(content_path)
     event_path = content_path / (params["date"] + "-meetup.md")
     if event_path.exists():
-        raise ScriptError(f"file exists, will not be overwritten: {event_path}")
+        raise EventFileExistsError(event_path=event_path)
     return event_path
 
 
