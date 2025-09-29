@@ -12,14 +12,37 @@ import os
 from pathlib import Path
 import pwd
 from string import Template
+import validators
 
+
+#
+# functions for initializing constants need to be first
+#
+
+def get_user_name() -> str:
+    """get user name as default author name"""
+    gecos = pwd.getpwuid(os.getuid())[4]
+    if gecos is not None and len(gecos) > 0:
+        return gecos
+    username = pwd.getpwuid(os.getuid())[0]
+    return username
+
+
+#
+# constants
+#
+
+# default values for CLI arguments
 PDX_LKMU_DEFAULTS = {
-    "start_time": "18:00:00",
-    "end_time": "21:00:00",
+    "author": get_user_name(),
+    "start_time": "18:00",
+    "end_time": "21:00",
     "time_zone": "US/Pacific",
     "url": "https://ikluft.github.io/pdx-lkmu/",
     "location": "0",
 }
+
+# event locations
 PDX_LKMU_LOCATIONS = [
     {
         "short": "Lucky Lab on Quimby",
@@ -29,6 +52,8 @@ PDX_LKMU_LOCATIONS = [
         "geo": "45.53371;-122.69174",
     },
 ]
+
+# event article template text
 PDX_LKMU_TEMPLATE = \
     '''Title: ${month} ${year} Portland Linux Kernel Meetup
 Date: ${post_date}
@@ -51,47 +76,124 @@ The Portland Linux Kernel Meetup for ${month} ${year} will be at...
 Come enjoy a beverage and chat with other people who are interested in the Linux kernel.
 All experience levels are welcome. This is a friendly and casual meetup.'''
 
+#
+# exceptions
+#
+
 
 class ScriptError(Exception):
-    """Exception intended to be caught and print message attribute, no stack trace."""
+    """Exception intended to be caught and print its message attribute, no stack trace."""
 
     def __init__(self, message):
         self.message = message
         super().__init__(self.message)
 
+#
+# functions
+#
 
-def get_user_name() -> str:
-    """get user name as default author name."""
-    gecos = pwd.getpwuid(os.getuid())[4]
-    if gecos is not None and len(gecos) > 0:
-        return gecos
-    username = pwd.getpwuid(os.getuid())[0]
-    return username
+
+def get_parsed_args() -> argparse.Namespace:
+    """parse command line arguments and return Namespace structure with their keys & values"""
+    parser = argparse.ArgumentParser()
+    parser.add_argument("date")
+    parser.add_argument("--quiet", action=argparse.BooleanOptionalAction)
+    parser.add_argument("--author")
+    parser.add_argument("--start_time", "--start-time")
+    parser.add_argument("--end_time", "--end-time")
+    parser.add_argument("--time_zone", "--time-zone", "--tz")
+    parser.add_argument("--url")
+    parser.add_argument("--location", type=int)
+    return parser.parse_args()
 
 
 def dt_to_ical(dt: datetime) -> str:
-    """convert datetime to iCalendar date/time string."""
+    """convert datetime to iCalendar date/time string"""
     return dt.strftime("%Y:%m:%d %H:%M")
 
 
-def prompt_input(prompt: str, default: str) -> str:
-    """Display a prompt and get user input, including default value if nothing was entered."""
+def prompt_input(prompt: str, field_name: str, args: argparse.Namespace) -> str:
+    """Display a prompt and get user input, including default value if nothing was entered"""
+    if field_name in vars(args) and vars(args)[field_name] is not None:
+        return vars(args)[field_name]
+    default = PDX_LKMU_DEFAULTS[field_name]
+    if args.quiet:
+        return default
     response = input(f"{prompt} [{default}]: ")
     if len(response) == 0:
         return default
     return response
 
 
+def parse_date(date_str: str) -> date:
+    """Parse and validate a date string, ignore return value if only validating format"""
+    try:
+        event_date = date.fromisoformat(date_str)
+    except ValueError as e:
+        raise ScriptError(f"event date must be in YYYY-MM-DD format: {e}") from e
+    return event_date
+
+
+def parse_time(time_str: str, desc: str) -> time:
+    """Parse and validate a time-of-day string, ignore return value if only validating format"""
+    try:
+        time_obj = time.fromisoformat(time_str)
+    except ValueError as e:
+        raise ScriptError(f"event {desc} time must be in 24-hour HH:MM or HH:MM:SS format: {e}") from e
+    return time_obj
+
+
+def parse_tz(tz_str: str) -> ZoneInfo:
+    """Parse and validate a time zone string, ignore return value if only validating format"""
+    try:
+        tz = ZoneInfo(tz_str)
+    except TypeError as e:
+        raise ScriptError(f"unrecognized time zone {tz_str}: {e}") from e
+    return tz
+
+
+def validate_url(url: str) -> None:
+    """validate URL formatting, otherwise raise exception"""
+    try:
+        result = validators.url(url)
+        if isinstance(result, Exception):
+            raise result
+    except validators.utils.ValidationError as e:
+        raise ScriptError(f"URL failed validation: {url} - reason: {e}") from e
+
+
+def validate_location(loc_num: int) -> None:
+    """validate location number, otherwise raise exception"""
+    max_loc = len(PDX_LKMU_LOCATIONS) - 1
+    if loc_num < 0 or loc_num > max_loc:
+        raise ScriptError(f"location number must be 0-{max_loc}, got {loc_num}")
+
+
+def validate_args(args: argparse.Namespace) -> None:
+    """verify values of provided arguments, raise exception for failure"""
+    parse_date(args.date)
+    if args.start_time is not None:
+        parse_time(args.start_time, "start")
+    if args.end_time is not None:
+        parse_time(args.end_time, "end")
+    if args.time_zone is not None:
+        parse_tz(args.time_zone)
+    if args.location is not None:
+        validate_location(args.location)
+    if args.url is not None:
+        validate_url(args.url)
+
+
 def get_event_path(params: dict) -> Path:
     """get event file path and require it doesn't already exist"""
-    content_path = Path(Path.cwd(), "content")
+    content_path = Path("content")
     if not content_path.exists():
         raise ScriptError("'content' directory does not exist - this should be run in a PDX-LKMU git workspace")
     if not content_path.is_dir():
         raise ScriptError("'content' must be a directory in order to create files in it")
     event_path = content_path / (params["date"] + "-meetup.md")
     if event_path.exists():
-        raise ScriptError(f"{event_path} exists - script will not overwrite it")
+        raise ScriptError(f"file exists, will not be overwritten: {event_path}")
     return event_path
 
 
@@ -101,18 +203,11 @@ def get_meeting_params() -> dict:
     params = {}
 
     # parse command line
-    parser = argparse.ArgumentParser()
-    parser.add_argument("date")
-    parser.add_argument("--author", default=get_user_name())
-    parser.add_argument("--start_time", default=PDX_LKMU_DEFAULTS["start_time"])
-    parser.add_argument("--end_time", default=PDX_LKMU_DEFAULTS["end_time"])
-    parser.add_argument("--time_zone", default=PDX_LKMU_DEFAULTS["time_zone"])
-    parser.add_argument("--url", default=PDX_LKMU_DEFAULTS["url"])
-    parser.add_argument("--location", default=PDX_LKMU_DEFAULTS["location"])
-    args = parser.parse_args()
+    args = get_parsed_args()
+    validate_args(args)
 
     # parse date and generate related parameters
-    event_date = date.fromisoformat(args.date)
+    event_date = parse_date(args.date)
     params['date'] = event_date.isoformat()
     params['weekday'] = event_date.strftime("%A")
     params['year'] = event_date.strftime("%Y")
@@ -121,28 +216,33 @@ def get_meeting_params() -> dict:
     get_event_path(params)  # verify event file doesn't already exist before bothering user with questions
 
     # process time zone
-    params['time_zone'] = prompt_input("time zone", args.time_zone)
-    tz = ZoneInfo(params['time_zone'])
+    params['time_zone'] = prompt_input("time zone", 'time_zone', args)
+    tz = parse_tz(params['time_zone'])
 
     # parse start and end times, generate related parameters
-    start_time_str = prompt_input("start time", args.start_time)
-    event_start_time = time.fromisoformat(start_time_str)
+    start_time_str = prompt_input("start time", 'start_time', args)
+    event_start_time = parse_time(start_time_str, "start")
     params['start_time'] = event_start_time.strftime("%I:%M %p")
     event_start = datetime.combine(event_date, event_start_time, tzinfo=tz)
     params['event_start'] = dt_to_ical(event_start)
-    end_time_str = prompt_input("end time", args.end_time)
-    event_end_time = time.fromisoformat(end_time_str)
+    end_time_str = prompt_input("end time", 'end_time', args)
+    event_end_time = parse_time(end_time_str, "end")
     params['end_time'] = event_end_time.strftime("%I:%M %p")
     event_end = datetime.combine(event_date, event_end_time, tzinfo=tz)
     params['event_end'] = dt_to_ical(event_end)
     params['post_date'] = dt_to_ical(datetime.now())
 
     # prompt user for values
-    params['author'] = prompt_input("author", args.author)
-    params['url'] = prompt_input("URL", args.url)
+    params['author'] = prompt_input("author", 'author', args)
+    params['url'] = prompt_input("URL", 'url', args)
+    validate_url(params['url'])
 
     # pull location from table
-    location_num = int(args.location)
+    if args.location is not None:
+        location_num = int(args.location)
+    else:
+        location_num = int(PDX_LKMU_DEFAULTS["location"])
+    validate_location(location_num)
     params['location_short'] = PDX_LKMU_LOCATIONS[location_num]['short']
     params['location_name'] = PDX_LKMU_LOCATIONS[location_num]['name']
     params['location_street'] = PDX_LKMU_LOCATIONS[location_num]['street']
@@ -160,6 +260,10 @@ def generate_event(params: dict) -> int | str | None:
     print(f"generating event file to {event_path}")
     with open(event_path, "w", encoding='utf-8') as out_file:
         print(template.safe_substitute(params), file=out_file)
+
+#
+# mainline
+#
 
 
 def main() -> int | str | None:
