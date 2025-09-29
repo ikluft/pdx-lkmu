@@ -9,6 +9,7 @@ from datetime import date, time, datetime
 from zoneinfo import ZoneInfo
 import sys
 import os
+from pathlib import Path
 import pwd
 from string import Template
 
@@ -51,6 +52,14 @@ Come enjoy a beverage and chat with other people who are interested in the Linux
 All experience levels are welcome. This is a friendly and casual meetup.'''
 
 
+class ScriptError(Exception):
+    """Exception intended to be caught and print message attribute, no stack trace."""
+
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
+
+
 def get_user_name() -> str:
     """get user name as default author name."""
     gecos = pwd.getpwuid(os.getuid())[4]
@@ -71,6 +80,19 @@ def prompt_input(prompt: str, default: str) -> str:
     if len(response) == 0:
         return default
     return response
+
+
+def get_event_path(params: dict) -> Path:
+    """get event file path and require it doesn't already exist"""
+    content_path = Path(Path.cwd(), "content")
+    if not content_path.exists():
+        raise ScriptError("'content' directory does not exist - this should be run in a PDX-LKMU git workspace")
+    if not content_path.is_dir():
+        raise ScriptError("'content' must be a directory in order to create files in it")
+    event_path = content_path / (params["date"] + "-meetup.md")
+    if event_path.exists():
+        raise ScriptError(f"{event_path} exists - script will not overwrite it")
+    return event_path
 
 
 def get_meeting_params() -> dict:
@@ -96,6 +118,7 @@ def get_meeting_params() -> dict:
     params['year'] = event_date.strftime("%Y")
     params['month'] = event_date.strftime("%B")
     params['day'] = str(event_date.day)
+    get_event_path(params)  # verify event file doesn't already exist before bothering user with questions
 
     # process time zone
     params['time_zone'] = prompt_input("time zone", args.time_zone)
@@ -133,7 +156,10 @@ def get_meeting_params() -> dict:
 def generate_event(params: dict) -> int | str | None:
     """generate event text from template"""
     template = Template(PDX_LKMU_TEMPLATE)
-    print(template.safe_substitute(params))
+    event_path = get_event_path(params)
+    print(f"generating event file to {event_path}")
+    with open(event_path, "w", encoding='utf-8') as out_file:
+        print(template.safe_substitute(params), file=out_file)
 
 
 def main() -> int | str | None:
@@ -143,4 +169,7 @@ def main() -> int | str | None:
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except ScriptError as e:
+        print(f"error: {e.message}", file=sys.stderr)
