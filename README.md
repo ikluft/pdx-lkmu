@@ -9,6 +9,8 @@ _Contents_
     * [Setting up a local preview](#setup-preview)
     * [Structure of the pdx-lkmu repo](#repo-structure)
     * [Adding a post, including newly-scheduled meetups](#add-post)
+        * [Automated method of creating a post for a new meetup](#add-post-automatic)
+        * [Manual method of creating a post for a new meetup](#add-post-manual)
 * [Current status](#current-status)
 
 <a name="info-participants"></a>
@@ -60,11 +62,17 @@ A short summary of what any of our volunteers need for posting in the PDX Linux 
 * Use a local preview to check your work.
 * The static site will update automatically within minutes when you commit your changes. Errors can be corrected by editing affected files and committing the changes.
 
+<a name="add-post-automatic"></a>
+#### Automated method of creating a post for a new meetup
+
 You can generate a post text by running with a parameter of the ISO8601 date of the meetupi (i.e. format a date like 2025-09-18):
 
     ./gen_lkmu_event.py YYYY-MM-DD
 
 That command creates a text file in the contents/ directory named for the event date. For example, './gen_lkmu_event.py 2025-09-18' would try to create 2025-09-18-meetup.md - except that file already exists and would error out. You should run it in your git workspace. Then use 'git add ...', 'git commit ...' and 'git push' to update the git repo. A rebuild of the web site will be triggered when you commit.
+
+<a name="add-post-manual"></a>
+#### Manual method of creating a post for a new meetup
 
 Here's how to manually format a post for a newly-scheduled Portland Linux Kernel Meetup. Substitute [bracketed items] and date stamps YYYY-MM-DD HH:MM with actual info for the event. Timestamps are in Portland local time, "US/Pacific" - it will automatically use standard or daylight time for the time of year. Pelican doesn't recognize time zone suffixes on timestamps so don't use them in this file.
 
