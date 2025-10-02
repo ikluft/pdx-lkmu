@@ -1,3 +1,5 @@
+<center><img src="content/images/luckylab_tux.webp" width="60%" title="Tux at Lucky Lab, photo by Drew Fustini" /></center>
+
 # PDX-lkmu - Portland Linux Kernel Meetup
 This is where we post the public web and calendar for the monthly Portland Linux Kernel Meetup.
 
@@ -6,7 +8,7 @@ Each commit to this repo automatically updates the static web site at https://ik
 _Contents_
 
 * [Info for participants](#info-participants)
-    * [Setting up a local preview](#setup-preview)
+    * [Setting up a local preview workspace](#setup-preview)
     * [Structure of the pdx-lkmu repo](#repo-structure)
     * [Adding a post, including newly-scheduled meetups](#add-post)
         * [Automated method of creating a post for a new meetup](#add-post-automatic)
@@ -18,7 +20,7 @@ _Contents_
 For participants authorized to update the repository, here's how to set up your local environment to work on it. It uses the Python-based [Pelican static web site generator](https://docs.getpelican.com/en/latest/). Each commit to the main branch triggers a GitHub Actions workflow to deploy the contents to the live web site.
 
 <a name="setup-preview"></a>
-### Setting up a local preview
+### Setting up a local preview workspace
 For work on the site, you can also install Pelican on your local system to preview your work. To set up your local environment on a Linux or other POSIX-compatible system:
 
 * Make sure you have a current version of Python installed. The GitHub Action which deploys the site uses 3.13.
