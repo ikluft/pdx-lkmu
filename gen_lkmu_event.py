@@ -165,7 +165,7 @@ def get_parsed_args() -> argparse.Namespace:
 
 def dt_to_ical(dt: datetime) -> str:
     """Convert datetime to iCalendar date/time string."""
-    return dt.strftime("%Y:%m:%d %H:%M")
+    return dt.strftime("%Y-%m-%d %H:%M")
 
 
 def prompt_input(prompt: str, field_name: str, args: argparse.Namespace) -> str:
