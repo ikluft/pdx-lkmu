@@ -10,6 +10,7 @@ THEME_TEMPLATES_OVERRIDES = ["templates"]
 AUTHOR = 'Portland Linux Kernel Meetup organizers'
 SITENAME = 'Portland Linux Kernel Meetup'
 SITEURL = ""
+TIMEZONE = "US/Pacific"
 
 PATH = "content"
 
