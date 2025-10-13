@@ -74,11 +74,6 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Install requirements
         run: pip install ${{ inputs.requirements }}
-      - name: build pelican-events plugin
-        run: |
-          git clone https://github.com/ikluft/pelican-events.git
-          cd pelican-events
-          pip install .
       - name: make output directory
         run: mkdir -p ${{ inputs.output-path }}
       - name: Build Pelican site

@@ -17,7 +17,7 @@ jobs:
       id-token: "write"
     with:
       settings: "publishconf.py"
-      python: "3.13"
+      python: "3.14"
       # theme: "https://github.com/jody-frankowski/blue-penguin"
-      requirements: "pelican[markdown] icalendar pytz recurrent"
+      requirements: "pelican[markdown] icalendar pytz recurrent pelican-events"
       submodules: "true"
