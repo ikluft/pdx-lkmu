@@ -1,6 +1,6 @@
 Title: How to subscribe to the PDX-LKMU calendar feed
 Date: 2025-11-13 23:30
-Category: Outreach
+Category: Status
 Author: Ian Kluft
 
 Whichever calendaring system you use, you can subscribe to the Portland Linux Kernel Meetup calendar
