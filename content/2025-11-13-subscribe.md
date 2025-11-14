@@ -1,4 +1,4 @@
-Title: How to subscribe to the PDX-LKMU calendar feed
+Title: Subscribing to PDX-LKMU events
 Date: 2025-11-13 23:30
 Category: Status
 Author: Ian Kluft
