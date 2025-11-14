@@ -74,7 +74,10 @@ The Portland Linux Kernel Meetup for ${month} ${year} will be at...
 * Location: ${location_name}, ${location_street}, ${location_city}
 
 Come enjoy a beverage and chat with other people who are interested in the Linux kernel.
-All experience levels are welcome. This is a friendly and casual meetup.'''
+All experience levels are welcome. This is a friendly and casual meetup.
+
+To get timely reminders of Portland Linux Kernel Meetups, see
+[https://ikluft.github.io/pdx-lkmu/subscribing-to-pdx-lkmu-events.html](https://ikluft.github.io/pdx-lkmu/subscribing-to-pdx-lkmu-events.html).'''
 
 #
 # exceptions
