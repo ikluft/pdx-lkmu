@@ -67,11 +67,13 @@ A short summary of what any of our volunteers need for posting in the PDX Linux 
 <a name="add-post-automatic"></a>
 #### Automated method of creating a post for a new meetup
 
-You can generate a post text by running with a parameter of the ISO8601 date of the meetupi (i.e. format a date like 2025-09-18):
+You can generate a post text by running with a parameter of the ISO8601 date of the meetup (i.e. format a date like 2025-09-18):
 
     ./gen_lkmu_event.py YYYY-MM-DD
 
 That command creates a text file in the contents/ directory named for the event date. For example, './gen_lkmu_event.py 2025-09-18' would try to create 2025-09-18-meetup.md - except that file already exists and would error out. You should run it in your git workspace. Then use 'git add ...', 'git commit ...' and 'git push' to update the git repo. A rebuild of the web site will be triggered when you commit.
+
+After posting the event on our site, proceed to the section below on <a href="#uploading-to-calagator">Uploading to Calagator</a>.
 
 <a name="add-post-manual"></a>
 #### Manual method of creating a post for a new meetup
@@ -101,11 +103,32 @@ Here's how to manually format a post for a newly-scheduled Portland Linux Kernel
 
     [more intro text if needed for the specific date]
 
+After posting the event on our site, proceed to the section below on <a href="#uploading-to-calagator">Uploading to Calagator</a>.
+
+<a name="uploading-to-calagator"></a>
+#### Uploading to Calagator
+
+We don't yet have a system to automatically have the Portland-area Calagator tech calendar import our events from our iCal feed. It should be technically possible.
+
+Until then, follow these manual steps:
+
+* Verify the newly-posted event you just made is actually listed in our [iCal RSS feed](https://ikluft.github.io/pdx-lkmu/calendar.ics)
+* Go to <a href="https://calagator.org/">calagator.org</a>
+* Click "Import events" on Calagator's top menu.
+* Enter the URL of our feed into the box: https://ikluft.github.io/pdx-lkmu/calendar.ics
+* That imports our raw event data. But you're not done yet. On the right sidebar, click "edit" because we want to add some metadata.
+* In the "Tags" field enter these comma-delimited tags: PDXLKMU, kernel, linux
+* Solve the Captcha to hint that you're probably not a bot. This will probably take some temporary tweaks to browser anti-tracking defenses to get it to work.
+* Submit it.
+* Remember to turn back on any browser anti-tracking defenses that had to be disabled to submit the form.
+
 <a name="current-status"></a>
 ## Current status
 
-As of September 2025:
+As of December 2025:
 
 After failing to get the legacy (2015) events plugin to generate iCalendar files with support for the URL field, Ian had to update the plugin. The static site generator now uses our [pelican-events plugin](https://github.com/ikluft/pelican-events). This builds on the 2015 events plugin and fixes/extensions by Makerspace Esslingen (Germany). The updated plugin complies with Pelican's current requirement that it is discoverable as a Python module whose name is prefixed with pelican.plugins.* .
 
-Work is in progress adding tests and preparing to submit it to PyPI.
+The [pelican-events plugin has been on PyPI](https://pypi.org/project/pelican-events/) since Oct 2025.
+
+With some usage since then, it'll be time soon to approach Pelican about submitting it to their package repository.
