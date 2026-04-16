@@ -13,6 +13,7 @@ _Contents_
     * [Adding a post, including newly-scheduled meetups](#add-post)
         * [Automated method of creating a post for a new meetup](#add-post-automatic)
         * [Manual method of creating a post for a new meetup](#add-post-manual)
+        * [Uploading to Calagator](#uploading-to-calagator")
 * [Current status](#current-status)
 
 <a name="info-participants"></a>
