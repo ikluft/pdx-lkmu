@@ -126,7 +126,11 @@ Until then, follow these manual steps:
 <a name="current-status"></a>
 ## Current status
 
-As of December 2025:
+April 2026:
+
+[Pelican 4.12 was released](https://getpelican.com/blog/pelican-4.12-released/). The PDX-LKMU site build was verified to be working with the new version.
+
+December 2025:
 
 After failing to get the legacy (2015) events plugin to generate iCalendar files with support for the URL field, Ian had to update the plugin. The static site generator now uses our [pelican-events plugin](https://github.com/ikluft/pelican-events). This builds on the 2015 events plugin and fixes/extensions by Makerspace Esslingen (Germany). The updated plugin complies with Pelican's current requirement that it is discoverable as a Python module whose name is prefixed with pelican.plugins.* .
 
