@@ -6,7 +6,7 @@ The Portland Linux Kernel Meetup used to only be organized on a Meetup page. But
 
 Our regular meeting place is Lucky Labrador Beer Hall, 1945 NW Quimby St, Portland, Oregon
 
-Here's the intro as Drew posted it on Meetup:
+Here's the intro as Drew posted it on Meetup[.]com back when he used it to start this meetup:
 
 > ![Tux at Lucky Lab]({static}/images/luckylab_tux.webp)
 >
@@ -19,6 +19,12 @@ This is the text Drew uses for each meetup event:
 > Come enjoy a beverage and chat with other people who are interested in the Linux kernel. All experience levels are welcome. This is a friendly and casual meetup.
 >
 > NOTE: Look for the table with a plush Tux as seen in the photo above. Drew's mobile is 773-710-7131 if you have trouble finding us.
+
+## Yes, the meeting place is a pub, but...
+
+We haven't heard this question here. But a friend in another city talking about a different event, mentioned he was uncomfortable about not knowing whether consumption of alcohol was expected in that setting. *At the Portland Linux Kernel Meetup, there's no pressure on what you order.* (The point is to talk about Linux.) Lucky Lab has non-alcoholic beverages - they have to because the location does not require patrons to be 21 to enter.
+
+Of course, we encourage responsible behavior. It is expected that anyone who drove or rode a bicycle/scooter to the meetup, or anyone under 21, must not have alcohol. If you're planning to drink, then either walk, get a ride or take transit.
 
 ## Open Source credits and attributions
 
