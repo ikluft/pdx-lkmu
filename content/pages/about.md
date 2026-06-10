@@ -2,7 +2,7 @@ Title: About
 Date: 2025-05-24 23:00
 Authors: Ian Kluft, Drew Fustini
 
-The Portland Linux Kernel Meetup used to only be organized on a Meetup page. But that was allowed to expire in August 2025 because of excessive fees for hosting a meetup. We set up this github.io site for a separate web presence. It generates calendar events that can export to the Portland tech community's Calagator calendar.
+The Portland Linux Kernel Meetup was originally organized on a Meetup[.]com page. But that was allowed to expire in August 2025 because of increasingly-excessive fees for hosting events there. We set up this github.io site for a separate web presence. It generates iCal calendar events that we can export to the Portland tech community's Calagator calendar, and landing pages for the links from those listings.
 
 Our regular meeting place is Lucky Labrador Beer Hall, 1945 NW Quimby St, Portland, Oregon
 
